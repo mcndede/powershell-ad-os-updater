@@ -1,124 +1,106 @@
-# ============================================================
-# 2_Update_DeviceOS.ps1
-# Uses Excel COM automation - no ImportExcel module needed.
-# Make sure device.xlsx is on your Desktop and CLOSED in Excel.
-# ============================================================
+<h1>PowerShell AD OS Updater</h1>
+A two-script PowerShell automation tool that queries Active Directory across multiple domains and bulk-updates an Excel spreadsheet with the current Operating System for each device — no manual lookups required.
 
-Import-Module ActiveDirectory -ErrorAction Stop
+Built to solve a real-world Desktop Support problem: updating large device lists with accurate OS data without touching each machine individually.
 
-$domains = @("corp.company.com", "net.company.com")
+<h2>Environments and Technologies Used</h2>
 
-$filePath = Join-Path ([Environment]::GetFolderPath('Desktop')) "device.xlsx"
-if (-not (Test-Path $filePath)) {
-    Write-Host "ERROR: device.xlsx not found on your Desktop." -ForegroundColor Red
-    Read-Host "Press Enter to close"
-    exit
-}
+- Windows PowerShell 5.1
+- Active Directory (RSAT / ActiveDirectory module)
+- Excel COM Automation (no third-party modules required)
+- Microsoft Active Directory (multi-domain environment)
 
-# Open Excel via COM
-Write-Host "Opening $filePath via Excel..." -ForegroundColor Cyan
-try {
-    $excel = New-Object -ComObject Excel.Application
-    $excel.Visible = $false
-    $excel.DisplayAlerts = $false
-    $workbook = $excel.Workbooks.Open($filePath)
-    $sheet = $workbook.Sheets.Item(1)
-} catch {
-    Write-Host "ERROR: Could not open Excel file. Is it already open?" -ForegroundColor Red
-    Read-Host "Press Enter to close"
-    exit
-}
+<h2>Operating Systems Used</h2>
 
-# Find header row - locate 'Device Name' and 'Window' columns
-$headerRow = 1
-$deviceNameCol = $null
-$windowCol     = $null
+- Windows 10 / Windows 11 (domain-joined endpoints)
+- Windows Server (domain controllers — corp.company.com / net.company.com)
 
-$lastCol = $sheet.UsedRange.Columns.Count
-for ($col = 1; $col -le $lastCol; $col++) {
-    $header = $sheet.Cells.Item($headerRow, $col).Text.Trim()
-    if ($header -eq "Device Name") { $deviceNameCol = $col }
-    if ($header -like "Window*")   { $windowCol     = $col }
-}
+<h2>Problem This Solves</h2>
 
-if (-not $deviceNameCol -or -not $windowCol) {
-    Write-Host "ERROR: Could not find 'Device Name' or 'Window' column in sheet." -ForegroundColor Red
-    $workbook.Close($false)
-    $excel.Quit()
-    Read-Host "Press Enter to close"
-    exit
-}
+In a large enterprise environment, keeping track of which devices are running Windows 10 vs Windows 11 across multiple AD domains is tedious. Doing it manually — searching AD one device at a time and updating a spreadsheet — is slow and error-prone.
 
-Write-Host "Columns found - Device Name: $deviceNameCol | Window: $windowCol" -ForegroundColor DarkGray
-Write-Host "`nSearching devices...`n" -ForegroundColor Yellow
+This tool automates the entire process: give it a spreadsheet of device names, and it queries AD across both domains, then writes the OS directly back into the file.
 
-$updated  = 0
-$notFound = 0
-$lastRow  = $sheet.UsedRange.Rows.Count
+<h2>Scripts Overview</h2>
 
-for ($row = 2; $row -le $lastRow; $row++) {
-    $deviceName = $sheet.Cells.Item($row, $deviceNameCol).Text.Trim()
-    if (-not $deviceName) { continue }
+- **1_Install_Modules.ps1** — Prerequisite checker. Verifies that the ActiveDirectory (RSAT) module is installed and that Excel COM automation is available before running the main script.
+- **2_Update_DeviceOS.ps1** — The main script. Opens `device.xlsx` from the Desktop, loops through every device name, queries both AD domains for the OperatingSystem attribute, and writes "Windows 10" or "Windows 11" back into the spreadsheet automatically.
 
-    Write-Host "Searching: $deviceName" -ForegroundColor Magenta
-    $found = $false
+<h2>How to Use</h2>
 
-    foreach ($domain in $domains) {
-        try {
-            $computer = Get-ADComputer -Identity $deviceName `
-                            -Server $domain `
-                            -Properties OperatingSystem `
-                            -ErrorAction Stop
+**Step 1 — Run the prerequisite check**
+```powershell
+.\1_Install_Modules.ps1
+```
+This confirms that RSAT and Excel COM are available on your machine. If either is missing, it will tell you what to fix before proceeding.
 
-            if ($computer) {
-                $os = $computer.OperatingSystem
+**Step 2 — Prepare your spreadsheet**
 
-                if ($os -like "*Windows 11*") {
-                    $sheet.Cells.Item($row, $windowCol) = "Windows 11"
-                    Write-Host "  -> Found in $domain : Windows 11" -ForegroundColor Green
-                } elseif ($os -like "*Windows 10*") {
-                    $sheet.Cells.Item($row, $windowCol) = "Windows 10"
-                    Write-Host "  -> Found in $domain : Windows 10" -ForegroundColor Green
-                } else {
-                    $sheet.Cells.Item($row, $windowCol) = $os
-                    Write-Host "  -> Found in $domain : $os" -ForegroundColor Yellow
-                }
+Place `device.xlsx` on your Desktop. The sheet must have a column called **Device Name** and a column starting with **Window** (e.g. "Windows Version"). Make sure the file is closed in Excel before running the script.
 
-                $found = $true
-                $updated++
-                break
-            }
-        }
-        catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException] {
-            Write-Host "  -> Not found in $domain, trying next..." -ForegroundColor DarkGray
-        }
-        catch {
-            Write-Warning "  -> Error searching $domain : $($_.Exception.Message)"
-        }
-    }
+**Step 3 — Run the main script**
+```powershell
+.\2_Update_DeviceOS.ps1
+```
+The script will:
+- Open the Excel file via COM automation
+- Search each device name against both AD domains
+- Write the OS result ("Windows 10", "Windows 11", or the raw OS string) into the Window column
+- Save and close the file automatically
+- Print a summary showing how many devices were updated vs. not found
 
-    if (-not $found) {
-        Write-Warning "  -> '$deviceName' not found in any domain."
-        $notFound++
-    }
-}
+<h2>Script Walkthrough</h2>
 
-# Save and close
-Write-Host "`nSaving Excel file..." -ForegroundColor Cyan
-try {
-    $workbook.Save()
-    $workbook.Close($false)
-    $excel.Quit()
-    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($excel) | Out-Null
-    Write-Host "Saved successfully!" -ForegroundColor Green
-} catch {
-    Write-Host "ERROR: Could not save file." -ForegroundColor Red
-    Read-Host "Press Enter to close"
-    exit
-}
+<p>
+<img src="[INSERT SCREENSHOT — script output in terminal, devices being searched]" height="80%" width="80%" alt="Script running in PowerShell terminal"/>
+</p>
+<p>
+When the script runs, it searches each device name against the first domain (corp.company.com) and falls back to the second (net.company.com) if not found. Each result is printed to the console in real time so you can follow along as it processes the list.
+</p>
+<br />
 
-Write-Host "`n============================" -ForegroundColor Cyan
-Write-Host "  Updated  : $updated devices" -ForegroundColor Green
-Write-Host "  Not found: $notFound devices" -ForegroundColor Yellow
-Write-Host "============================`n" -ForegroundColor Cyan
-Read-Host "Press Enter to close"
+<p>
+<img src="[INSERT SCREENSHOT — Excel file before and after, showing the Window column populated]" height="80%" width="80%" alt="Excel file with OS column filled in"/>
+</p>
+<p>
+Once complete, the Excel file is saved with the OS column filled in for every device that was found in AD. Devices not found in either domain are flagged in the console output with a warning so nothing gets silently skipped.
+</p>
+<br />
+
+<p>
+<img src="[INSERT SCREENSHOT — summary output at the end of the script run]" height="80%" width="80%" alt="Script summary showing updated and not found counts"/>
+</p>
+<p>
+At the end of each run, the script prints a summary showing the total number of devices updated and the number not found across either domain.
+</p>
+<br />
+
+<h2>Errors & Troubleshooting</h2>
+
+This script went through several iterations before working correctly. Below are the real errors encountered during development and how each one was resolved.
+
+<p>
+<img src="[INSERT SCREENSHOT — error 1]" height="80%" width="80%" alt="Error screenshot"/>
+</p>
+<p>
+<strong>Error:</strong> [describe the error here — paste from the troubleshooting chat]<br/>
+<strong>Cause:</strong> [what was causing it]<br/>
+<strong>Fix:</strong> [what change resolved it]
+</p>
+<br />
+
+<p>
+<img src="[INSERT SCREENSHOT — error 2]" height="80%" width="80%" alt="Error screenshot"/>
+</p>
+<p>
+<strong>Error:</strong> [describe the error here]<br/>
+<strong>Cause:</strong> [what was causing it]<br/>
+<strong>Fix:</strong> [what change resolved it]
+</p>
+<br />
+
+<h2>Key Takeaways</h2>
+
+- Excel COM automation is a powerful way to read/write .xlsx files in PowerShell without installing any extra modules — useful in locked-down enterprise environments
+- Querying AD across multiple domains requires specifying the `-Server` parameter on `Get-ADComputer` for each domain separately
+- Catching `ADIdentityNotFoundException` specifically (rather than a generic catch) allows the script to gracefully try the next domain instead of stopping on every miss
