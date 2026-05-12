@@ -30,7 +30,26 @@ This tool automates the entire process: give it a spreadsheet of device names, a
 
 **Step 1 — Run the prerequisite check**
 ```powershell
-.\1_Install_Modules.ps1
+# Check ActiveDirectory module (RSAT)
+if (Get-Module -ListAvailable -Name ActiveDirectory) {
+    Write-Host "ActiveDirectory module: OK" -ForegroundColor Green
+} else {
+    Write-Host "WARNING: ActiveDirectory module not found." -ForegroundColor Red
+    Write-Host "Ask your IT admin to install RSAT on this machine." -ForegroundColor Yellow
+}
+
+# Check Excel is installed (needed for COM)
+try {
+    $excel = New-Object -ComObject Excel.Application -ErrorAction Stop
+    $excel.Quit()
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($excel) | Out-Null
+    Write-Host "Excel COM automation: OK" -ForegroundColor Green
+} catch {
+    Write-Host "WARNING: Excel not found or COM automation blocked." -ForegroundColor Red
+}
+
+Write-Host "`nSetup check complete! You can now run 2_Update_DeviceOS.ps1 anytime." -ForegroundColor Green
+Read-Host "Press Enter to close"
 ```
 This confirms that RSAT and Excel COM are available on your machine. If either is missing, it will tell you what to fix before proceeding.
 
