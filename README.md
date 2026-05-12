@@ -30,7 +30,7 @@ This tool automates the entire process: give it a spreadsheet of device names, a
 
 **Step 1 — Run the prerequisite check**
 ```powershell
-.\1_Install_ModulesT.ps1
+.\1_Install_Modules.ps1
 ```
 This confirms that RSAT and Excel COM are available on your machine. If either is missing, it will tell you what to fix before proceeding.
 
@@ -40,7 +40,7 @@ Place `device.xlsx` on your Desktop. The sheet must have a column called **Devic
 
 **Step 3 — Run the main script**
 ```powershell
-.\2_Update_DeviceOST.ps1
+.\2_Update_DeviceOS.ps1
 ```
 The script will:
 - Open the Excel file via COM automation
