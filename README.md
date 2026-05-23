@@ -17,7 +17,7 @@ Built to solve a real-world Desktop Support problem: updating large device lists
 
 <h2>Problem This Solves</h2>
 
-In a large enterprise environment, keeping track of which devices are running Windows 10 vs Windows 11 across multiple AD domains is tedious. Doing it manually — searching AD one device at a time and updating a spreadsheet — is slow and error-prone.
+In a large enterprise environment, keeping track of which devices are running Windows 10 vs Windows 11 across multiple AD domains is tedious. Doing it manually, searching AD one device at a time and updating a spreadsheet, is slow and error-prone.
 
 This tool automates the entire process: give it a spreadsheet of device names, and it queries AD across both domains, then writes the OS directly back into the file.
 
