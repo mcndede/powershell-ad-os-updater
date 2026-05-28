@@ -189,7 +189,7 @@ The script will:
 <h2>Script Walkthrough</h2>
 
 <p>
-<img src="[INSERT SCREENSHOT — script output in terminal, devices being searched]" height="80%" width="80%" alt="Script running in PowerShell terminal"/>
+<img src="https://us-east.storage.cloudconvert.com/tasks/6ca492b5-e3a2-4f9b-8371-5069cededee5/Searching.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260528%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260528T234717Z&X-Amz-Expires=86400&X-Amz-Signature=a45d39085d02ee05c5da2c602c95f098829712f139522fffa2924cce7a6a90f0&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Searching.png%22&response-content-type=image%2Fpng&x-id=GetObject" height="80%" width="80%" alt="Script running in PowerShell terminal"/>
 </p>
 <p>
 When the script runs, it searches each device name against the first domain (corp.company.com) and falls back to the second (net.company.com) if not found. Each result is printed to the console in real time so you can follow along as it processes the list.
