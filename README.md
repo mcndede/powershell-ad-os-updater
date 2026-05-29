@@ -226,7 +226,7 @@ This script went through a few iterations before working correctly. Below are th
 <br />
 
 <p>
-<img src="(https://us-east.storage.cloudconvert.com/tasks/71878be7-86f4-44eb-8f01-dbdb6bae99bb/Error%202%20from%20module%201.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T051312Z&X-Amz-Expires=86400&X-Amz-Signature=e5f2b2b908d48c2e983777cfdd97fb74724b1bafb46ede3d2718036e3cd8abad&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Error%202%20from%20module%201.png%22&response-content-type=image%2Fpng&x-id=GetObject)" height="80%" width="80%" alt="Error screenshot"/>
+<img src="https://us-east.storage.cloudconvert.com/tasks/71878be7-86f4-44eb-8f01-dbdb6bae99bb/Error%202%20from%20module%201.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T051312Z&X-Amz-Expires=86400&X-Amz-Signature=e5f2b2b908d48c2e983777cfdd97fb74724b1bafb46ede3d2718036e3cd8abad&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Error%202%20from%20module%201.png%22&response-content-type=image%2Fpng&x-id=GetObject" height="80%" width="80%" alt="Error screenshot"/>
 </p>
 <p>
 <strong>Cause:</strong> The script crashed when it hit the "press any key to continue" pause at line 19. The method it used to wait for a keypress is not supported in every PowerShell environment.<br/>
