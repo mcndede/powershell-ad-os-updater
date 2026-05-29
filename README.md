@@ -1,7 +1,7 @@
 <img src="https://us-east.storage.cloudconvert.com/tasks/afa44f37-e4b9-4484-bd22-5371112c1fac/powershell.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T051957Z&X-Amz-Expires=86400&X-Amz-Signature=cad2981cfc8ea8f47af383c1bda9797ba46ef65d235a48076d00f4368ddf8021&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22powershell.png%22&response-content-type=image%2Fpng&x-id=GetObject"/>
 
 <h1>PowerShell AD OS Updater</h1>
-A two-script PowerShell automation tool that queries Active Directory across multiple domains and bulk-updates an Excel spreadsheet with the current Operating System for each device — no manual lookups required.
+A two-script PowerShell automation tool that queries Active Directory across multiple domains and bulk-updates an Excel spreadsheet with the current Operating System for each device, no manual lookups required.
 
 Built to solve a real-world Desktop Support problem: updating large device lists with accurate OS data without touching each machine individually.
 
