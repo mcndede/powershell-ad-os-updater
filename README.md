@@ -214,15 +214,14 @@ At the end of each run, the script prints a summary showing the total number of 
 
 <h2>Errors & Troubleshooting</h2>
 
-This script went through several iterations before working correctly. Below are the real errors encountered during development and how each one was resolved.
+This script went through a few iterations before working correctly. Below are the real errors encountered during development and how each one was resolved.
 
 <p>
-<img src="[INSERT SCREENSHOT — error 1]" height="80%" width="80%" alt="Error screenshot"/>
+<img src="https://us-east.storage.cloudconvert.com/tasks/0633fc27-a76d-466b-8fe2-b247326d8998/Error%20Message.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T045947Z&X-Amz-Expires=86400&X-Amz-Signature=ce374131eee25307b9a33e3ba892459a34d752e0c9702f7962b8e4004d2cb9fb&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Error%20Message.png%22&response-content-type=image%2Fpng&x-id=GetObject" height="80%" width="80%" alt="Error screenshot"/>
 </p>
 <p>
-<strong>Error:</strong> [describe the error here — paste from the troubleshooting chat]<br/>
-<strong>Cause:</strong> [what was causing it]<br/>
-<strong>Fix:</strong> [what change resolved it]
+<strong>Cause:</strong> The script failed at launch because the ImportExcel PowerShell module was not installed on the target machine. Since the script depends on this module to read/write Excel data, it cannot continue without it. <br/>
+<strong>Fix:</strong> The script was rewritten to use Excel COM Automation instead, which is built into Windows and requires no module installation.
 </p>
 <br />
 
