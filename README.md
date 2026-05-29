@@ -1,3 +1,5 @@
+<img src="[https://us-east.storage.cloudconvert.com/tasks/80ca12a8-2e1c-472a-9cf7-3cca1e467afe/Excel%20Sheet.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T030127Z&X-Amz-Expires=86400&X-Amz-Signature=6df4ac9c685a1ca7af2bfaf5626043557a074f99f9a440d13680523863309e27&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Excel%20Sheet.png%22&response-content-type=image%2Fpng&x-id=GetObject" height="80%" width="80%" alt="Excel file with OS column filled in](https://upload.wikimedia.org/wikipedia/commons/2/2f/PowerShell_5.0_icon.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original)"/>
+
 <h1>PowerShell AD OS Updater</h1>
 A two-script PowerShell automation tool that queries Active Directory across multiple domains and bulk-updates an Excel spreadsheet with the current Operating System for each device — no manual lookups required.
 
@@ -235,6 +237,8 @@ This script went through a few iterations before working correctly. Below are th
 <br />
 
 <h2>Key Takeaways</h2>
+
+
 
 - Excel COM automation is a powerful way to read/write .xlsx files in PowerShell without installing any extra modules — useful in locked-down enterprise environments
 - Querying AD across multiple domains requires specifying the `-Server` parameter on `Get-ADComputer` for each domain separately
