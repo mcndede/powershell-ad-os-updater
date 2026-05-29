@@ -240,6 +240,6 @@ This script went through a few iterations before working correctly. Below are th
 
 
 
-- Excel COM automation is a powerful way to read/write .xlsx files in PowerShell without installing any extra modules — useful in locked-down enterprise environments
+- Excel COM automation is a powerful way to read/write .xlsx files in PowerShell without installing any extra modules, useful in locked-down enterprise environments
 - Querying AD across multiple domains requires specifying the `-Server` parameter on `Get-ADComputer` for each domain separately
 - Catching `ADIdentityNotFoundException` specifically (rather than a generic catch) allows the script to gracefully try the next domain instead of stopping on every miss
