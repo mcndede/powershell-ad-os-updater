@@ -197,7 +197,7 @@ When the script runs, it searches each device name against the first domain (cor
 <br />
 
 <p>
-<img src="[INSERT SCREENSHOT — Excel file before and after, showing the Window column populated]" height="80%" width="80%" alt="Excel file with OS column filled in"/>
+<img src="https://us-east.storage.cloudconvert.com/tasks/80ca12a8-2e1c-472a-9cf7-3cca1e467afe/Excel%20Sheet.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T030127Z&X-Amz-Expires=86400&X-Amz-Signature=6df4ac9c685a1ca7af2bfaf5626043557a074f99f9a440d13680523863309e27&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Excel%20Sheet.png%22&response-content-type=image%2Fpng&x-id=GetObject" height="80%" width="80%" alt="Excel file with OS column filled in"/>
 </p>
 <p>
 Once complete, the Excel file is saved with the OS column filled in for every device that was found in AD. Devices not found in either domain are flagged in the console output with a warning so nothing gets silently skipped.
@@ -205,7 +205,7 @@ Once complete, the Excel file is saved with the OS column filled in for every de
 <br />
 
 <p>
-<img src="[INSERT SCREENSHOT — summary output at the end of the script run]" height="80%" width="80%" alt="Script summary showing updated and not found counts"/>
+<img src="https://us-east.storage.cloudconvert.com/tasks/2354629c-d87e-491e-aa10-9d9d1c56a806/Summary.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20260529%2Fva%2Fs3%2Faws4_request&X-Amz-Date=20260529T030234Z&X-Amz-Expires=86400&X-Amz-Signature=38acc303417887673dcf519ae536f1f9cf00af1fc71ecebfac8c86b25cd08ab8&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Summary.png%22&response-content-type=image%2Fpng&x-id=GetObject" height="80%" width="80%" alt="Script summary showing updated and not found counts"/>
 </p>
 <p>
 At the end of each run, the script prints a summary showing the total number of devices updated and the number not found across either domain.
